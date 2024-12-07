@@ -1,0 +1,1256 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Basic Website with Tarot Feature</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      margin: 0;
+      padding: 0;
+    }
+
+    #tarot {
+      text-align: center;
+      margin-top: 50px;
+    }
+
+    .tarot-card {
+      border: 1px solid #ccc;
+      padding: 20px;
+      margin-bottom: 20px;
+      background-color: #f9f9f9;
+      display: none;
+    }
+
+    #draw-button {
+      padding: 10px 20px;
+      font-size: 16px;
+      margin-bottom: 20px;
+    }
+
+    #result {
+      margin-top: 20px;
+      font-weight: bold;
+    }
+  </style>
+</head>
+<body>
+  <div id="tarot">
+    <h1>Tarot Cards</h1>
+
+    <div class="tarot-guidance pre-draw" style="color: #808080; line-height: 1.4;">
+      <h2 style="color: #808080;">Pre-Draw Spiritual Guidance</h2>
+      <blockquote style="color: #808080; line-height: 1.4;">
+          <p>Dear seeker of wisdom, take a moment to center yourself. Breathe deeply and connect with your inner guidance. Release any expectations or fears, and open your heart to the divine messages waiting to be revealed.</p>
+          <p>Trust in the universe's infinite wisdom and your own intuition. As you prepare to draw this card, know that the insights you receive are meant to illuminate your path and support your highest good.</p>
+          <p>Let go of doubt and embrace the sacred journey of self-discovery.</p>
+      </blockquote>
+    </div>
+
+    <button id="draw-button" onclick="drawCard()">Draw a Tarot card</button>
+    
+    <div id="result"></div>
+
+    <div id="guidance" style="display:none; max-width: 600px; margin: 0 auto; padding: 20px; background-color: #f0f0f0;"></div>
+
+    <!--  Major Arcana (22*2) -->
+
+    <div class="tarot-card" data-name="The Fool">
+      <h2>The Fool</h2>
+      <p><strong>Past:</strong> You are at the beginning of a new journey or situation.</p>
+      <p><strong>Present:</strong> You are open-minded and receptive to new experiences.</p>
+      <p><strong>Future:</strong> New opportunities will come your way.</p>
+    </div>
+    
+    <div class="tarot-card" data-name="The Magician">
+      <h2>The Magician</h2>
+      <p><strong>Past:</strong> You have the power to create and manifest your desires.</p>
+      <p><strong>Present:</strong> You are in control of your life and can make decisions with confidence.</p>
+      <p><strong>Future:</strong> Your efforts will lead to success and prosperity.</p>
+    </div>
+    
+    <div class="tarot-card" data-name="The High Priestess">
+      <h2>The High Priestess</h2>
+      <p><strong>Past:</strong> You have a deep intuition and hidden knowledge.</p>
+      <p><strong>Present:</strong> You are intuitive and can see through situations.</p>
+      <p><strong>Future:</strong> Your intuition will guide you towards your goals.</p>
+    </div>
+    
+    <div class="tarot-card" data-name="The Empress">
+      <h2>The Empress</h2>
+      <p><strong>Past:</strong> You have nurtured growth and abundance in your life.</p>
+      <p><strong>Present:</strong> You are nurturing and caring for others and yourself.</p>
+      <p><strong>Future:</strong> Abundance will continue to flow into your life.</p>
+    </div>
+    
+    <div class="tarot-card" data-name="The Emperor">
+      <h2>The Emperor</h2>
+      <p><strong>Past:</strong> You have established authority and stability in your life.</p>
+      <p><strong>Present:</strong> You are a leader and have control over your environment.</p>
+      <p><strong>Future:</strong> Your leadership will bring success and prosperity.</p>
+    </div>
+    
+    <div class="tarot-card" data-name="The Hierophant">
+      <h2>The Hierophant</h2>
+      <p><strong>Past:</strong> You have been guided by tradition and authority in your life.</p>
+      <p><strong>Present:</strong> You are seeking guidance from established norms and values.</p>
+      <p><strong>Future:</strong> Your path will be influenced by traditional wisdom.</p>
+    </div>
+    
+    <div class="tarot-card" data-name="The Lovers">
+      <h2>The Lovers</h2>
+      <p><strong>Past:</strong> You have found love and connection in your life.</p>
+      <p><strong>Present:</strong> You are seeking harmony and balance in relationships.</p>
+      <p><strong>Future:</strong> Love will bring you joy and fulfillment.</p>
+    </div>
+    
+    <div class="tarot-card" data-name="The Chariot">
+      <h2>The Chariot</h2>
+      <p><strong>Past:</strong> You have overcome obstacles and achieved your goals.</p>
+      <p><strong>Present:</strong> You are moving forward with determination and focus.</p>
+      <p><strong>Future:</strong> Your efforts will lead to success and victory.</p>
+    </div>
+    
+    <div class="tarot-card" data-name="Strength">
+      <h2>Strength</h2>
+      <p><strong>Past:</strong> You have overcome challenges through determination and perseverance.</p>
+      <p><strong>Present:</strong> You are feeling powerful and capable of handling any obstacles that come your way.</p>
+      <p><strong>Future:</strong> Your strength will continue to grow, bringing success and fulfillment.</p>
+    </div>
+
+    <div class="tarot-card" data-name="The Hermit">
+      <h2>The Hermit</h2>
+      <p><strong>Past:</strong> You may have been seeking answers through isolation and introspection.</p>
+      <p><strong>Present:</strong> A time of solitude can lead to clarity and insight, helping you find inner peace.</p>
+      <p><strong>Future:</strong> The Hermit's wisdom will guide you on your path forward.</p>
+    </div>
+
+    <div class="tarot-card" data-name="The Wheel of Fortune">
+      <h2>The Wheel of Fortune</h2>
+      <p><strong>Past:</strong> You have experienced a significant change in your life.</p>
+      <p><strong>Present:</strong> Your life is in a state of flux and transformation.</p>
+      <p><strong>Future:</strong> Change will continue to shape your path.</p>
+    </div>
+    
+    <div class="tarot-card" data-name="The Justice">
+      <h2>The Justice</h2>
+      <p><strong>Past:</strong> You have faced a situation that required fairness and balance.</p>
+      <p><strong>Present:</strong> You are seeking truth and harmony in your life.</p>
+      <p><strong>Future:</strong> Your actions will be guided by justice and righteousness.</p>
+    </div>
+    
+    <div class="tarot-card" data-name="The Hanged Man">
+      <h2>The Hanged Man</h2>
+      <p><strong>Past:</strong> You have suspended yourself from the status quo to gain perspective.</p>
+      <p><strong>Present:</strong> You are letting go of control and embracing a new way of being.</p>
+      <p><strong>Future:</strong> Your actions will lead to growth and enlightenment.</p>
+    </div>
+    
+    <div class="tarot-card" data-name="The Death">
+      <h2>The Death</h2>
+      <p><strong>Past:</strong> You have experienced a significant transformation or loss in your life.</p>
+      <p><strong>Present:</strong> You are facing a new beginning and letting go of the old.</p>
+      <p><strong>Future:</strong> Renewal and rebirth will follow.</p>
+    </div>
+    
+    <div class="tarot-card" data-name="The Temperance">
+      <h2>The Temperance</h2>
+      <p><strong>Past:</strong> You have balanced opposing forces in your life.</p>
+      <p><strong>Present:</strong> You are seeking harmony and balance in your actions.</p>
+      <p><strong>Future:</strong> Your efforts will lead to a harmonious outcome.</p>
+    </div>
+    
+    <div class="tarot-card" data-name="The Devil">
+      <h2>The Devil</h2>
+      <p><strong>Past:</strong> You have been controlled by negative forces in your life.</p>
+      <p><strong>Present:</strong> You are trapped by materialism or addiction.</p>
+      <p><strong>Future:</strong> Breaking free from these chains will lead to liberation and enlightenment.</p>
+    </div>
+    
+    <div class="tarot-card" data-name="The Tower">
+      <h2>The Tower</h2>
+      <p><strong>Past:</strong> You have experienced a sudden and dramatic change in your life.</p>
+      <p><strong>Present:</strong> Your world is in chaos, and you are facing uncertainty.</p>
+      <p><strong>Future:</strong> A new beginning will follow the upheaval.</p>
+    </div>
+    
+    <div class="tarot-card" data-name="The Star">
+      <h2>The Star</h2>
+      <p><strong>Past:</strong> You have faced a difficult situation that required courage and resilience.</p>
+      <p><strong>Present:</strong> You are seeking hope and guidance in your life.</p>
+      <p><strong>Future:</strong> A new beginning will bring peace, love, and prosperity.</p>
+    </div>
+    
+    <div class="tarot-card" data-name="The Moon">
+      <h2>The Moon</h2>
+      <p><strong>Past:</strong> You have experienced a situation that required intuition and imagination.</p>
+      <p><strong>Present:</strong> Your life is influenced by emotions and the subconscious.</p>
+      <p><strong>Future:</strong> Trust your instincts and follow your dreams.</p>
+    </div>
+    
+    <div class="tarot-card" data-name="The Sun">
+      <h2>The Sun</h2>
+      <p><strong>Past:</strong> You have experienced a period of growth, success, or achievement in your life.</p>
+      <p><strong>Present:</strong> You are experiencing joy and fulfillment in your life.</p>
+      <p><strong>Future:</strong> Continued success and happiness will follow.</p>
+    </div>
+    
+    <div class="tarot-card" data-name="The Judgement">
+      <h2>The Judgement</h2>
+      <p><strong>Past:</strong> You have faced a situation that required transformation or resolution.</p>
+      <p><strong>Present:</strong> You are seeking clarity and closure in your life.</p>
+      <p><strong>Future:</strong> A new beginning will bring enlightenment and understanding.</p>
+    </div>
+    
+    <div class="tarot-card" data-name="The World">
+      <h2>The World</h2>
+      <p><strong>Past:</strong> You have experienced a period of completion, fulfillment, or achievement in your life.</p>
+      <p><strong>Present:</strong> You are experiencing peace and harmony in your life.</p>
+      <p><strong>Future:</strong> Continued success and happiness will follow.</p>
+    </div>
+    
+    <div class="tarot-card" data-name="The Fool (Reversed)">
+      <h2>The Fool (Reversed)</h2>
+      <p><strong>Past:</strong> You have made impulsive decisions that may not serve you well.</p>
+      <p><strong>Present:</strong> You are acting without thought or consideration, which could lead to problems.</p>
+      <p><strong>Future:</strong> Take time to think before making decisions.</p>
+    </div>
+    
+    <div class="tarot-card" data-name="The Magician (Reversed)">
+      <h2>The Magician (Reversed)</h2>
+      <p><strong>Past:</strong> You have been unable to create or manifest your desires due to lack of focus or confidence.</p>
+      <p><strong>Present:</strong> You are struggling with indecision and a lack of direction in your life.</p>
+      <p><strong>Future:</strong> Take action and make decisions with confidence.</p>
+    </div>
+    
+    <div class="tarot-card" data-name="The High Priestess (Reversed)">
+      <h2>The High Priestess (Reversed)</h2>
+      <p><strong>Past:</strong> You have been guided by your own intuition rather than external sources of knowledge.</p>
+      <p><strong>Present:</strong> You are relying too heavily on your own instincts and may miss important information.</p>
+      <p><strong>Future:</strong> Seek guidance from others to make informed decisions.</p>
+    </div>
+    
+    <div class="tarot-card" data-name="The Empress (Reversed)">
+      <h2>The Empress (Reversed)</h2>
+      <p><strong>Past:</strong> You have neglected your own needs and desires in favor of others.</p>
+      <p><strong>Present:</strong> You are putting the needs of others before your own, which could lead to burnout.</p>
+      <p><strong>Future:</strong> Take care of yourself first and then focus on others.</p>
+    </div>
+    
+    <div class="tarot-card" data-name="The Emperor (Reversed)">
+      <h2>The Emperor (Reversed)</h2>
+      <p><strong>Past:</strong> You have been controlling or dominating those around you, which has caused conflict.</p>
+      <p><strong>Present:</strong> You are acting in a domineering manner and may be causing harm to others.</p>
+      <p><strong>Future:</strong> Learn to be more empathetic and considerate towards others.</p>
+    </div>
+    
+    <div class="tarot-card" data-name="The Hierophant (Reversed)">
+      <h2>The Hierophant (Reversed)</h2>
+      <p><strong>Past:</strong> You have been following the rules or traditions without understanding their meaning.</p>
+      <p><strong>Present:</strong> You are living a life that is based on external expectations rather than your own values and beliefs.</p>
+      <p><strong>Future:</strong> Seek inner wisdom and follow your own path.</p>
+    </div>
+    
+    <div class="tarot-card" data-name="The Lovers (Reversed)">
+      <h2>The Lovers (Reversed)</h2>
+      <p><strong>Past:</strong> You have been in a situation that required compromise or sacrifice, but you did not get what you wanted.</p>
+      <p><strong>Present:</strong> You are struggling with relationships and may be feeling unfulfilled.</p>
+      <p><strong>Future:</strong> Seek balance and harmony in your relationships.</p>
+    </div>
+    
+    <div class="tarot-card" data-name="The Chariot (Reversed)">
+      <h2>The Chariot (Reversed)</h2>
+      <p><strong>Past:</strong> You have been moving forward with determination, but you may be facing obstacles or setbacks.</p>
+      <p><strong>Present:</strong> You are struggling to make progress and may feel stuck in your current situation.</p>
+      <p><strong>Future:</strong> Take action and overcome the challenges that are holding you back.</p>
+    </div>
+    
+    <div class="tarot-card" data-name="Strength (Reversed)">
+      <h2>Strength (Reversed)</h2>
+      <p><strong>Past:</strong> You may have been overusing your strength, leading to exhaustion or burnout.</p>
+      <p><strong>Present:</strong> There may be a need to temper your force with patience and restraint.</p>
+      <p><strong>Future:</strong> Releasing pent-up energy can bring relief and renewed balance.</p>
+    </div>
+
+    <div class="tarot-card" data-name="The Hermit (Reversed)">
+      <h2>The Hermit (Reversed)</h2>
+      <p><strong>Past:</strong> You may have been seeking answers through isolation, but finding it difficult to connect.</p>
+      <p><strong>Present:</strong> There may be a need for social interaction and shared experiences.</p>
+      <p><strong>Future:</strong> Openness and community can bring new perspectives and growth.</p>
+    </div>
+
+    <div class="tarot-card" data-name="The Wheel of Fortune (Reversed)">
+      <h2>The Wheel of Fortune (Reversed)</h2>
+      <p><strong>Past:</strong> You have experienced a situation that required stability or balance, but it has caused problems.</p>
+      <p><strong>Present:</strong> Your life is in a state of flux and may be causing stress or uncertainty.</p>
+      <p><strong>Future:</strong> Seek balance and stability to avoid further upheaval.</p>
+    </div>
+    
+    <div class="tarot-card" data-name="The Justice (Reversed)">
+      <h2>The Justice (Reversed)</h2>
+      <p><strong>Past:</strong> You have faced a situation that required fairness or balance, but it has caused conflict.</p>
+      <p><strong>Present:</strong> You are seeking truth and harmony in your life, but may be struggling with unresolved issues.</p>
+      <p><strong>Future:</strong> Address any conflicts and seek resolution to move forward.</p>
+    </div>
+    
+    <div class="tarot-card" data-name="The Hanged Man (Reversed)">
+      <h2>The Hanged Man (Reversed)</h2>
+      <p><strong>Past:</strong> You have suspended yourself from the status quo, but it may not be serving you well.</p>
+      <p><strong>Present:</strong> You are letting go of control and may be feeling lost or uncertain.</p>
+      <p><strong>Future:</strong> Take action to regain control and direction in your life.</p>
+    </div>
+    
+    <div class="tarot-card" data-name="The Death (Reversed)">
+      <h2>The Death (Reversed)</h2>
+      <p><strong>Past:</strong> You have experienced a significant transformation or loss, but it may not be complete.</p>
+      <p><strong>Present:</strong> Your world is in flux and you may be facing uncertainty.</p>
+      <p><strong>Future:</strong> Seek closure and move forward with renewed energy.</p>
+    </div>
+    
+    <div class="tarot-card" data-name="The Temperance (Reversed)">
+      <h2>The Temperance (Reversed)</h2>
+      <p><strong>Past:</strong> You have balanced opposing forces, but it may not have been effective.</p>
+      <p><strong>Present:</strong> You are seeking harmony and balance in your actions, but may be struggling with unresolved issues.</p>
+      <p><strong>Future:</strong> Take a step back and reassess your approach to achieving balance.</p>
+    </div>
+    
+    <div class="tarot-card" data-name="The Devil (Reversed)">
+      <h2>The Devil (Reversed)</h2>
+      <p><strong>Past:</strong> You have been controlled by negative forces, but you may be taking steps towards liberation.</p>
+      <p><strong>Present:</strong> You are breaking free from materialism or addiction and may be experiencing a sense of freedom.</p>
+      <p><strong>Future:</strong> Continue to work on personal growth and enlightenment.</p>
+    </div>
+    
+    <div class="tarot-card" data-name="The Tower (Reversed)">
+      <h2>The Tower (Reversed)</h2>
+      <p><strong>Past:</strong> You have experienced a sudden and dramatic change, but it may not have been positive.</p>
+      <p><strong>Present:</strong> Your world is in chaos, and you may be facing uncertainty or fear.</p>
+      <p><strong>Future:</strong> Seek stability and grounding to overcome the upheaval.</p>
+    </div>
+    
+    <div class="tarot-card" data-name="The Star (Reversed)">
+      <h2>The Star (Reversed)</h2>
+      <p><strong>Past:</strong> You have faced a difficult situation that required courage or resilience, but it may not have been successful.</p>
+      <p><strong>Present:</strong> You are seeking hope and guidance in your life, but may be feeling lost or uncertain.</p>
+      <p><strong>Future:</strong> Trust your instincts and follow your dreams, even if the path is unclear.</p>
+    </div>
+    
+    <div class="tarot-card" data-name="The Moon (Reversed)">
+      <h2>The Moon (Reversed)</h2>
+      <p><strong>Past:</strong> You have experienced a situation that required intuition or imagination, but it may not have been effective.</p>
+      <p><strong>Present:</strong> Your life is influenced by emotions and the subconscious, but you may be struggling with anxiety or fear.</p>
+      <p><strong>Future:</strong> Seek clarity and grounding to overcome your fears and doubts.</p>
+    </div>
+    
+    <div class="tarot-card" data-name="The Sun (Reversed)">
+      <h2>The Sun (Reversed)</h2>
+      <p><strong>Past:</strong> You have experienced a period of growth, success, or achievement, but it may not have been fulfilling.</p>
+      <p><strong>Present:</strong> You are experiencing joy and fulfillment in your life, but you may be feeling stagnant or unfulfilled.</p>
+      <p><strong>Future:</strong> Seek new challenges and opportunities to continue growing and thriving.</p>
+    </div>
+    
+    <div class="tarot-card" data-name="The Judgement (Reversed)">
+      <h2>The Judgement (Reversed)</h2>
+      <p><strong>Past:</strong> You have faced a situation that required transformation or resolution, but it may not have been complete.</p>
+      <p><strong>Present:</strong> You are seeking clarity and closure in your life, but you may be feeling stuck or uncertain.</p>
+      <p><strong>Future:</strong> Take action to address any unresolved issues and seek closure.</p>
+    </div>
+    
+    <div class="tarot-card" data-name="The World (Reversed)">
+      <h2>The World (Reversed)</h2>
+      <p><strong>Past:</strong> You have experienced a period of completion, fulfillment, or achievement, but it may not have been satisfying.</p>
+      <p><strong>Present:</strong> You are experiencing peace and harmony in your life, but you may be feeling stagnant or unfulfilled.</p>
+      <p><strong>Future:</strong> Seek new challenges and opportunities to continue growing and thriving.</p>
+    </div>
+    
+    <!--  Minor Arcana -->
+
+    <!--  Wands -->
+    <div class="tarot-card" data-name="Ace of Wands">
+      <h2>Ace of Wands</h2>
+      <p><strong>Past:</strong> You have experienced a beginning, a new start, or a fresh opportunity.</p>
+      <p><strong>Present:</strong> You are embarking on a journey of growth and advancement.</p>
+      <p><strong>Future:</strong> Continued progress and achievement will follow.</p>
+    </div>
+    
+    <div class="tarot-card" data-name="Two of Wands">
+      <h2>Two of Wands</h2>
+      <p><strong>Past:</strong> You have faced a decision or choice in your life.</p>
+      <p><strong>Present:</strong> You are taking action based on that decision, and progress is being made.</p>
+      <p><strong>Future:</strong> Success will come from this decision.</p>
+    </div>
+    
+    <div class="tarot-card" data-name="Three of Wands">
+      <h2>Three of Wands</h2>
+      <p><strong>Past:</strong> You have experienced a change or transformation in your life.</p>
+      <p><strong>Present:</strong> You are moving forward with confidence and determination.</p>
+      <p><strong>Future:</strong> New opportunities will continue to arise.</p>
+    </div>
+    
+    <div class="tarot-card" data-name="Four of Wands">
+      <h2>Four of Wands</h2>
+      <p><strong>Past:</strong> You have experienced a period of stability and security in your life.</p>
+      <p><strong>Present:</strong> You are feeling content and satisfied with your current situation.</p>
+      <p><strong>Future:</strong> Continued success and prosperity will follow.</p>
+    </div>
+    
+    <div class="tarot-card" data-name="Five of Wands">
+      <h2>Five of Wands</h2>
+      <p><strong>Past:</strong> You have faced a challenge or obstacle in your life.</p>
+      <p><strong>Present:</strong> You are engaging in conflict, and there may be some tension.</p>
+      <p><strong>Future:</strong> Through persistence and determination, you will overcome this challenge.</p>
+    </div>
+    
+    <div class="tarot-card" data-name="Six of Wands">
+      <h2>Six of Wands</h2>
+      <p><strong>Past:</strong> You have experienced a period of accomplishment and success in your life.</p>
+      <p><strong>Present:</strong> You are feeling confident and successful in your endeavors.</p>
+      <p><strong>Future:</strong> Continued success will be on the horizon.</p>
+    </div>
+    
+    <div class="tarot-card" data-name="Seven of Wands">
+      <h2>Seven of Wands</h2>
+      <p><strong>Past:</strong> You have faced a significant challenge or obstacle in your life.</p>
+      <p><strong>Present:</strong> You are standing your ground and facing the conflict head-on.</p>
+      <p><strong>Future:</strong> Through determination, you will overcome this challenge.</p>
+    </div>
+    
+    <div class="tarot-card" data-name="Eight of Wands">
+      <h2>Eight of Wands</h2>
+      <p><strong>Past:</strong> You have experienced a period of transformation and change in your life.</p>
+      <p><strong>Present:</strong> You are moving forward with confidence and determination.</p>
+      <p><strong>Future:</strong> New opportunities will continue to arise.</p>
+    </div>
+    
+    <div class="tarot-card" data-name="Nine of Wands">
+      <h2>Nine of Wands</h2>
+      <p><strong>Past:</strong> You have experienced a period of stability and security in your life.</p>
+      <p><strong>Present:</strong> You are feeling content and satisfied with your current situation.</p>
+      <p><strong>Future:</strong> Continued success and prosperity will follow.</p>
+    </div>
+    
+    <div class="tarot-card" data-name="Ten of Wands">
+      <h2>Ten of Wands</h2>
+      <p><strong>Past:</strong> You have faced a series of challenges or obstacles in your life.</p>
+      <p><strong>Present:</strong> You are feeling overwhelmed by the weight of these challenges.</p>
+      <p><strong>Future:</strong> Through perseverance and determination, you will overcome these challenges.</p>
+    </div>
+    
+    <div class="tarot-card" data-name="Page of Wands">
+      <h2>Page of Wands</h2>
+      <p><strong>Past:</strong> You have experienced a period of new beginnings and possibilities in your life.</p>
+      <p><strong>Present:</strong> You are feeling excited and eager to explore new opportunities.</p>
+      <p><strong>Future:</strong> New experiences will provide valuable learning and growth.</p>
+    </div>
+    
+    <div class="tarot-card" data-name="Knight of Wands">
+      <h2>Knight of Wands</h2>
+      <p><strong>Past:</strong> You have faced a challenge or obstacle in your life.</p>
+      <p><strong>Present:</strong> You are taking action to overcome this challenge, and progress is being made.</p>
+      <p><strong>Future:</strong> Through persistence and determination, you will overcome this challenge.</p>
+    </div>
+    
+    <div class="tarot-card" data-name="Queen of Wands">
+      <h2>Queen of Wands</h2>
+      <p><strong>Past:</strong> You have experienced a period of success and prosperity in your life.</p>
+      <p><strong>Present:</strong> You are feeling confident and successful, and your energy is high.</p>
+      <p><strong>Future:</strong> Continued success will follow.</p>
+    </div>
+    
+    <div class="tarot-card" data-name="King of Wands">
+      <h2>King of Wands</h2>
+      <p><strong>Past:</strong> You have experienced a period of stability and security in your life.</p>
+      <p><strong>Present:</strong> You are feeling content and satisfied with your current situation, and you are respected by others.</p>
+      <p><strong>Future:</strong> Continued success and prosperity will follow.</p>
+    </div>
+
+    <div class="tarot-card" data-name="Ace of Wands (Reversed)">
+      <h2>Ace of Wands (Reversed)</h2>
+      <p><strong>Past:</strong> You may have felt overwhelmed or uncertain, leading to a sense of stagnation.</p>
+      <p><strong>Present:</strong> You are experiencing a period of struggle and challenges that feel insurmountable.</p>
+      <p><strong>Future:</strong> Overcome these obstacles through perseverance and determination.</p>
+    </div>
+    
+    <div class="tarot-card" data-name="Two of Wands (Reversed)">
+      <h2>Two of Wands (Reversed)</h2>
+      <p><strong>Past:</strong> Your plans or desires may have been complicated or contradictory, leading to confusion.</p>
+      <p><strong>Present:</strong> You are experiencing a period of indecision and potential conflict between different paths.</p>
+      <p><strong>Future:</strong> Clarify your intentions and align your actions with them for success.</p>
+    </div>
+    
+    <div class="tarot-card" data-name="Three of Wands (Reversed)">
+      <h2>Three of Wands (Reversed)</h2>
+      <p><strong>Past:</strong> You may have experienced a setback or failure in your pursuits, leading to disappointment.</p>
+      <p><strong>Present:</strong> You are facing difficulties that seem overwhelming and difficult to overcome.</p>
+      <p><strong>Future:</strong> Overcome these challenges through persistence and adaptability.</p>
+    </div>
+    
+    <div class="tarot-card" data-name="Four of Wands (Reversed)">
+      <h2>Four of Wands (Reversed)</h2>
+      <p><strong>Past:</strong> You may have felt a sense of isolation or lack of connection, leading to loneliness.</p>
+      <p><strong>Present:</strong> You are experiencing a period of disconnection from others and potential feelings of being left behind.</p>
+      <p><strong>Future:</strong> Reconnect with others and seek support for a sense of belonging and fulfillment.</p>
+    </div>
+    
+    <div class="tarot-card" data-name="Five of Wands (Reversed)">
+      <h2>Five of Wands (Reversed)</h2>
+      <p><strong>Past:</strong> You may have faced a series of losses or setbacks, leading to a sense of defeat.</p>
+      <p><strong>Present:</strong> You are experiencing multiple challenges that seem overwhelming and difficult to overcome.</p>
+      <p><strong>Future:</strong> Overcome these obstacles through perseverance and resilience.</p>
+    </div>
+    
+    <div class="tarot-card" data-name="Six of Wands (Reversed)">
+      <h2>Six of Wands (Reversed)</h2>
+      <p><strong>Past:</strong> You may have felt a sense of accomplishment or achievement that was not well-received, leading to disappointment.</p>
+      <p><strong>Present:</strong> You are experiencing a period of celebration or recognition that feels hollow or undeserved.</p>
+      <p><strong>Future:</strong> Reflect on your true values and ensure that your achievements align with them for long-term fulfillment.</p>
+    </div>
+    
+    <div class="tarot-card" data-name="Seven of Wands (Reversed)">
+      <h2>Seven of Wands (Reversed)</h2>
+      <p><strong>Past:</strong> You may have felt a sense of defiance or rebellion against authority, leading to conflict.</p>
+      <p><strong>Present:</strong> You are facing challenges that seem insurmountable and require a strong will to overcome.</p>
+      <p><strong>Future:</strong> Overcome these obstacles through determination and resilience.</p>
+    </div>
+    
+    <div class="tarot-card" data-name="Eight of Wands (Reversed)">
+      <h2>Eight of Wands (Reversed)</h2>
+      <p><strong>Past:</strong> You may have felt a sense of urgency or impatience, leading to hasty decisions.</p>
+      <p><strong>Present:</strong> You are facing multiple challenges that seem overwhelming and require careful consideration.</p>
+      <p><strong>Future:</strong> Take the time to evaluate your options and choose wisely for long-term success.</p>
+    </div>
+    
+    <div class="tarot-card" data-name="Nine of Wands (Reversed)">
+      <h2>Nine of Wands (Reversed)</h2>
+      <p><strong>Past:</strong> You may have felt a sense of fear or apprehension, leading to avoidance or procrastination.</p>
+      <p><strong>Present:</strong> You are facing a daunting challenge that requires courage and strength to overcome.</p>
+      <p><strong>Future:</strong> Face your fears head-on and take decisive action for success.</p>
+    </div>
+    
+    <div class="tarot-card" data-name="Ten of Wands (Reversed)">
+      <h2>Ten of Wands (Reversed)</h2>
+      <p><strong>Past:</strong> You may have felt a sense of exhaustion or burnout, leading to physical or mental fatigue.</p>
+      <p><strong>Present:</strong> You are facing multiple challenges that seem overwhelming and require significant effort to overcome.</p>
+      <p><strong>Future:</strong> Take care of your physical and mental well-being to sustain you through these difficulties.</p>
+    </div>
+    
+    <div class="tarot-card" data-name="Page of Wands (Reversed)">
+      <h2>Page of Wands (Reversed)</h2>
+      <p><strong>Past:</strong> You may have felt a sense of confusion or disorientation, leading to indecision.</p>
+      <p><strong>Present:</strong> You are experiencing a period of hesitation and potential conflict between different paths.</p>
+      <p><strong>Future:</strong> Clarify your intentions and align your actions with them for success.</p>
+    </div>
+    
+    <div class="tarot-card" data-name="Knight of Wands (Reversed)">
+      <h2>Knight of Wands (Reversed)</h2>
+      <p><strong>Past:</strong> You may have felt a sense of frustration or disappointment, leading to a feeling of being held back.</p>
+      <p><strong>Present:</strong> You are experiencing a period of stagnation and potential conflict with those around you.</p>
+      <p><strong>Future:</strong> Overcome these challenges through perseverance and determination.</p>
+    </div>
+    
+    <div class="tarot-card" data-name="Queen of Wands (Reversed)">
+      <h2>Queen of Wands (Reversed)</h2>
+      <p><strong>Past:</strong> You may have felt a sense of dissatisfaction or unhappiness, leading to feelings of neglect.</p>
+      <p><strong>Present:</strong> You are experiencing a period of isolation and potential conflict with others.</p>
+      <p><strong>Future:</strong> Reconnect with others and seek support for a sense of belonging and fulfillment.</p>
+    </div>
+    
+    <div class="tarot-card" data-name="King of Wands (Reversed)">
+      <h2>King of Wands (Reversed)</h2>
+      <p><strong>Past:</strong> You may have felt a sense of powerlessness or control, leading to feelings of being overwhelmed.</p>
+      <p><strong>Present:</strong> You are facing multiple challenges that seem overwhelming and require significant effort to overcome.</p>
+      <p><strong>Future:</strong> Take the time to evaluate your options and choose wisely for long-term success.</p>
+    </div>
+
+    <!--  Cups -->
+    <div class="tarot-card" data-name="Ace of Cups">
+      <h2>Ace of Cups</h2>
+      <p><strong>Past:</strong> You have experienced a sense of new beginnings and fresh possibilities.</p>
+      <p><strong>Present:</strong> You are feeling hopeful and optimistic about your future.</p>
+      <p><strong>Future:</strong> Continued growth and success will follow.</p>
+    </div>
+    
+    <div class="tarot-card" data-name="Two of Cups">
+      <h2>Two of Cups</h2>
+      <p><strong>Past:</strong> You have formed a connection with someone who has brought joy and support into your life.</p>
+      <p><strong>Present:</strong> You are feeling grateful for the relationships that make you happy.</p>
+      <p><strong>Future:</strong> Continued harmony and love will be present.</p>
+    </div>
+    
+    <div class="tarot-card" data-name="Three of Cups">
+      <h2>Three of Cups</h2>
+      <p><strong>Past:</strong> You have experienced a sense of belonging and community with others who share your interests.</p>
+      <p><strong>Present:</strong> You are feeling connected to those around you and a sense of fulfillment.</p>
+      <p><strong>Future:</strong> Continued happiness and satisfaction will follow.</p>
+    </div>
+    
+    <div class="tarot-card" data-name="Four of Cups">
+      <h2>Four of Cups</h2>
+      <p><strong>Past:</strong> You may have felt a sense of isolation or disconnect from others, leading to feelings of loneliness.</p>
+      <p><strong>Present:</strong> You are facing a period of self-reflection and seeking out connections with others.</p>
+      <p><strong>Future:</strong> Building stronger relationships will lead to greater fulfillment.</p>
+    </div>
+    
+    <div class="tarot-card" data-name="Five of Cups">
+      <h2>Five of Cups</h2>
+      <p><strong>Past:</strong> You may have experienced a setback or loss that has left you feeling hurt and defeated.</p>
+      <p><strong>Present:</strong> You are facing a difficult situation that requires reflection and introspection.</p>
+      <p><strong>Future:</strong> Overcoming challenges will lead to personal growth and resilience.</p>
+    </div>
+    
+    <div class="tarot-card" data-name="Six of Cups">
+      <h2>Six of Cups</h2>
+      <p><strong>Past:</strong> You may have felt a sense of relief or joy after overcoming a difficult challenge.</p>
+      <p><strong>Present:</strong> You are experiencing a period of celebration or recognition that feels genuine and meaningful.</p>
+      <p><strong>Future:</strong> Continued happiness and fulfillment will follow.</p>
+    </div>
+    
+    <div class="tarot-card" data-name="Seven of Cups">
+      <h2>Seven of Cups</h2>
+      <p><strong>Past:</strong> You may have felt a sense of confusion or indecision, leading to feelings of uncertainty.</p>
+      <p><strong>Present:</strong> You are facing multiple choices that require careful consideration and decision-making.</p>
+      <p><strong>Future:</strong> Choosing wisely will lead to long-term satisfaction.</p>
+    </div>
+    
+    <div class="tarot-card" data-name="Eight of Cups">
+      <h2>Eight of Cups</h2>
+      <p><strong>Past:</strong> You may have experienced a major life change or transition that brought about significant changes.</p>
+      <p><strong>Present:</strong> You are facing a period of adjustment and adaptation to new circumstances.</p>
+      <p><strong>Future:</strong> Continued growth and resilience will follow.</p>
+    </div>
+    
+    <div class="tarot-card" data-name="Nine of Cups">
+      <h2>Nine of Cups</h2>
+      <p><strong>Past:</strong> You have experienced a sense of contentment and satisfaction with your life.</p>
+      <p><strong>Present:</strong> You are feeling grateful for the blessings in your life.</p>
+      <p><strong>Future:</strong> Continued peace and fulfillment will follow.</p>
+    </div>
+    
+    <div class="tarot-card" data-name="Ten of Cups">
+      <h2>Ten of Cups</h2>
+      <p><strong>Past:</strong> You have experienced a major life achievement or milestone that brought about significant changes.</p>
+      <p><strong>Present:</strong> You are feeling proud and satisfied with your accomplishments.</p>
+      <p><strong>Future:</strong> Continued success and happiness will follow.</p>
+    </div>
+    
+    <div class="tarot-card" data-name="Page of Cups">
+      <h2>Page of Cups</h2>
+      <p><strong>Past:</strong> You may have felt a sense of curiosity or adventure, leading to new experiences.</p>
+      <p><strong>Present:</strong> You are facing a period of exploration and self-discovery.</p>
+      <p><strong>Future:</strong> Continued growth and personal development will follow.</p>
+    </div>
+    
+    <div class="tarot-card" data-name="Knight of Cups">
+      <h2>Knight of Cups</h2>
+      <p><strong>Past:</strong> You may have felt a sense of passion or dedication, leading to meaningful experiences.</p>
+      <p><strong>Present:</strong> You are facing a challenge that requires courage and determination.</p>
+      <p><strong>Future:</strong> Overcoming challenges will lead to personal growth and fulfillment.</p>
+    </div>
+    
+    <div class="tarot-card" data-name="Queen of Cups">
+      <h2>Queen of Cups</h2>
+      <p><strong>Past:</strong> You have experienced a sense of compassion and love, leading to meaningful connections with others.</p>
+      <p><strong>Present:</strong> You are feeling grateful for the relationships that make you happy.</p>
+      <p><strong>Future:</strong> Continued harmony and love will be present.</p>
+    </div>
+    
+    <div class="tarot-card" data-name="King of Cups">
+      <h2>King of Cups</h2>
+      <p><strong>Past:</strong> You have experienced a sense of wisdom and authority, leading to meaningful contributions in your community.</p>
+      <p><strong>Present:</strong> You are feeling confident and respected for your contributions.</p>
+      <p><strong>Future:</strong> Continued leadership and influence will follow.</p>
+    </div>
+
+    <div class="tarot-card" data-name="Ace of Cups (Reversed)">
+      <h2>Ace of Cups (Reversed)</h2>
+      <p><strong>Past:</strong> You may have felt a lack of purpose or direction, leading to confusion and indecision.</p>
+      <p><strong>Present:</strong> You are experiencing a period of stagnation or feeling lost in your spiritual journey.</p>
+      <p><strong>Future:</strong> Find clarity and focus on your true passions for direction and growth.</p>
+    </div>
+    
+    <div class="tarot-card" data-name="Two of Cups (Reversed)">
+      <h2>Two of Cups (Reversed)</h2>
+      <p><strong>Past:</strong> You may have felt a sense of isolation or loneliness, leading to a lack of connection.</p>
+      <p><strong>Present:</strong> You are experiencing a period of disconnection or feeling left out in social situations.</p>
+      <p><strong>Future:</strong> Seek out new connections and build stronger relationships for long-term fulfillment.</p>
+    </div>
+    
+    <div class="tarot-card" data-name="Three of Cups (Reversed)">
+      <h2>Three of Cups (Reversed)</h2>
+      <p><strong>Past:</strong> You may have felt a sense of imbalance or conflict, leading to stress and tension.</p>
+      <p><strong>Present:</strong> You are experiencing a period of struggle or feeling overwhelmed in your personal relationships.</p>
+      <p><strong>Future:</strong> Find balance and harmony in your relationships for long-term peace.</p>
+    </div>
+    
+    <div class="tarot-card" data-name="Four of Cups (Reversed)">
+      <h2>Four of Cups (Reversed)</h2>
+      <p><strong>Past:</strong> You may have felt a sense of loss or grief, leading to sadness and depression.</p>
+      <p><strong>Present:</strong> You are experiencing a period of sadness or feeling disconnected from your emotions.</p>
+      <p><strong>Future:</strong> Allow yourself to grieve and seek healing for long-term emotional well-being.</p>
+    </div>
+    
+    <div class="tarot-card" data-name="Five of Cups (Reversed)">
+      <h2>Five of Cups (Reversed)</h2>
+      <p><strong>Past:</strong> You may have felt a sense of betrayal or disappointment, leading to anger and resentment.</p>
+      <p><strong>Present:</strong> You are experiencing a period of tension or feeling hurt in your personal relationships.</p>
+      <p><strong>Future:</strong> Learn from past betrayals and move forward with empathy and understanding for long-term peace.</p>
+    </div>
+    
+    <div class="tarot-card" data-name="Six of Cups (Reversed)">
+      <h2>Six of Cups (Reversed)</h2>
+      <p><strong>Past:</strong> You may have felt a sense of accomplishment or achievement that was not well-received, leading to disappointment.</p>
+      <p><strong>Present:</strong> You are experiencing a period of celebration or recognition that feels hollow or undeserved.</p>
+      <p><strong>Future:</strong> Reflect on your true values and ensure that your achievements align with them for long-term fulfillment.</p>
+    </div>
+    
+    <div class="tarot-card" data-name="Seven of Cups (Reversed)">
+      <h2>Seven of Cups (Reversed)</h2>
+      <p><strong>Past:</strong> You may have felt a sense of confusion or indecision, leading to a lack of direction.</p>
+      <p><strong>Present:</strong> You are experiencing a period of stagnation or feeling lost in your spiritual journey.</p>
+      <p><strong>Future:</strong> Find clarity and focus on your true passions for direction and growth.</p>
+    </div>
+    
+    <div class="tarot-card" data-name="Eight of Cups (Reversed)">
+      <h2>Eight of Cups (Reversed)</h2>
+      <p><strong>Past:</strong> You may have felt a sense of separation or division, leading to feelings of isolation and loneliness.</p>
+      <p><strong>Present:</strong> You are experiencing a period of disconnection or feeling left out in social situations.</p>
+      <p><strong>Future:</strong> Seek out new connections and build stronger relationships for long-term fulfillment.</p>
+    </div>
+    
+    <div class="tarot-card" data-name="Nine of Cups (Reversed)">
+      <h2>Nine of Cups (Reversed)</h2>
+      <p><strong>Past:</strong> You may have felt a sense of imbalance or conflict, leading to stress and tension.</p>
+      <p><strong>Present:</strong> You are experiencing a period of struggle or feeling overwhelmed in your personal relationships.</p>
+      <p><strong>Future:</strong> Find balance and harmony in your relationships for long-term peace.</p>
+    </div>
+    
+    <div class="tarot-card" data-name="Ten of Cups (Reversed)">
+      <h2>Ten of Cups (Reversed)</h2>
+      <p><strong>Past:</strong> You may have felt a sense of loss or grief, leading to sadness and depression.</p>
+      <p><strong>Present:</strong> You are experiencing a period of sadness or feeling disconnected from your emotions.</p>
+      <p><strong>Future:</strong> Allow yourself to grieve and seek healing for long-term emotional well-being.</p>
+    </div>
+    
+    <div class="tarot-card" data-name="Page of Cups (Reversed)">
+      <h2>Page of Cups (Reversed)</h2>
+      <p><strong>Past:</strong> You may have felt a sense of confusion or indecision, leading to a lack of direction.</p>
+      <p><strong>Present:</strong> You are experiencing a period of stagnation or feeling lost in your spiritual journey.</p>
+      <p><strong>Future:</strong> Find clarity and focus on your true passions for direction and growth.</p>
+    </div>
+    
+    <div class="tarot-card" data-name="Knight of Cups (Reversed)">
+      <h2>Knight of Cups (Reversed)</h2>
+      <p><strong>Past:</strong> You may have felt a sense of conflict or disagreement, leading to tension and stress.</p>
+      <p><strong>Present:</strong> You are experiencing a period of struggle or feeling overwhelmed in your personal relationships.</p>
+      <p><strong>Future:</strong> Find balance and harmony in your relationships for long-term peace.</p>
+    </div>
+    
+    <div class="tarot-card" data-name="Queen of Cups (Reversed)">
+      <h2>Queen of Cups (Reversed)</h2>
+      <p><strong>Past:</strong> You may have felt a sense of vulnerability or fragility, leading to feelings of insecurity and anxiety.</p>
+      <p><strong>Present:</strong> You are experiencing a period of emotional turmoil or feeling unsure about your worth.</p>
+      <p><strong>Future:</strong> Build confidence and find strength in yourself for long-term emotional well-being.</p>
+    </div>
+    
+    <div class="tarot-card" data-name="King of Cups (Reversed)">
+      <h2>King of Cups (Reversed)</h2>
+      <p><strong>Past:</strong> You may have felt a sense of control or powerlessness, leading to feelings of resentment and anger.</p>
+      <p><strong>Present:</strong> You are experiencing a period of tension or feeling overwhelmed in your personal relationships.</p>
+      <p><strong>Future:</strong> Learn from past experiences and move forward with empathy and understanding for long-term peace.</p>
+    </div>
+
+    <!-- Swords -->
+    <div class="tarot-card" data-name="Ace of Swords">
+      <h2>Ace of Swords</h2>
+      <p><strong>Past:</strong> You have embarked on a new journey or found yourself in a pivotal moment.</p>
+      <p><strong>Present:</strong> You are taking decisive action and facing challenges head-on.</p>
+      <p><strong>Future:</strong> Boldness and determination will lead to positive outcomes.</p>
+    </div>
+    
+    <div class="tarot-card" data-name="Two of Swords">
+      <h2>Two of Swords</h2>
+      <p><strong>Past:</strong> There was a difficult choice or a split in your life path.</p>
+      <p><strong>Present:</strong> You are evaluating options and making tough decisions.</p>
+      <p><strong>Future:</strong> Harmony and balance will follow from these choices.</p>
+    </div>
+    
+    <div class="tarot-card" data-name="Three of Swords">
+      <h2>Three of Swords</h2>
+      <p><strong>Past:</strong> You experienced a significant loss or heartache in the past.</p>
+      <p><strong>Present:</strong> Grief and emotional pain may still be present, but healing is beginning.</p>
+      <p><strong>Future:</strong> Over time, you will find comfort and closure.</p>
+    </div>
+    
+    <div class="tarot-card" data-name="Four of Swords">
+      <h2>Four of Swords</h2>
+      <p><strong>Past:</strong> You were in a place of peace or solitude.</p>
+      <p><strong>Present:</strong> You are seeking inner peace and introspection.</p>
+      <p><strong>Future:</strong> A period of rest and recovery is about to begin.</p>
+    </div>
+    
+    <div class="tarot-card" data-name="Five of Swords">
+      <h2>Five of Swords</h2>
+      <p><strong>Past:</strong> You were in a situation where your defenses were breached, leading to vulnerability.</p>
+      <p><strong>Present:</strong> There are challenges and attacks happening now, but resilience will protect you.</p>
+      <p><strong>Future:</strong> With determination, you will overcome these difficulties.</p>
+    </div>
+    
+    <div class="tarot-card" data-name="Six of Swords">
+      <h2>Six of Swords</h2>
+      <p><strong>Past:</strong> You were on the brink of a major change or transition.</p>
+      <p><strong>Present:</strong> You are making a journey, leaving behind what is familiar.</p>
+      <p><strong>Future:</strong> New beginnings and opportunities will be on the horizon.</p>
+    </div>
+    
+    <div class="tarot-card" data-name="Seven of Swords">
+      <h2>Seven of Swords</h2>
+      <p><strong>Past:</strong> You were in a period of doubt or self-doubt, questioning your abilities.</p>
+      <p><strong>Present:</strong> You are facing a challenge that requires courage and strength to overcome.</p>
+      <p><strong>Future:</strong> Overcoming this obstacle will lead to greater confidence and mastery.</p>
+    </div>
+    
+    <div class="tarot-card" data-name="Eight of Swords">
+      <h2>Eight of Swords</h2>
+      <p><strong>Past:</strong> You were in a place of fear or paralysis, unable to move forward.</p>
+      <p><strong>Present:</strong> A period of transformation and new beginnings is about to begin.</p>
+      <p><strong>Future:</strong> With courage and determination, you will break free from the past.</p>
+    </div>
+    
+    <div class="tarot-card" data-name="Nine of Swords">
+      <h2>Nine of Swords</h2>
+      <p><strong>Past:</strong> You were in a state of intense pain or suffering.</p>
+      <p><strong>Present:</strong> You are facing a difficult time, but with resilience and support, you can endure.</p>
+      <p><strong>Future:</strong> With time and effort, you will heal from this pain.</p>
+    </div>
+    
+    <div class="tarot-card" data-name="Ten of Swords">
+      <h2>Ten of Swords</h2>
+      <p><strong>Past:</strong> You experienced a major loss or betrayal, leading to significant emotional pain.</p>
+      <p><strong>Present:</strong> Grief and emotional turmoil may still be present.</p>
+      <p><strong>Future:</strong> Over time, you will find peace and closure.</p>
+    </div>
+    
+    <div class="tarot-card" data-name="Page of Swords">
+      <h2>Page of Swords</h2>
+      <p><strong>Past:</strong> You may have felt a sense of curiosity or adventure, leading to new experiences.</p>
+      <p><strong>Present:</strong> You are facing a period of exploration and self-discovery.</p>
+      <p><strong>Future:</strong> Continued growth and personal development will follow.</p>
+    </div>
+    
+    <div class="tarot-card" data-name="Knight of Swords">
+      <h2>Knight of Swords</h2>
+      <p><strong>Past:</strong> You were on a quest for knowledge, truth, or a noble cause.</p>
+      <p><strong>Present:</strong> You are facing a challenge that requires courage and strength to overcome.</p>
+      <p><strong>Future:</strong> With determination, you will succeed in your quest.</p>
+    </div>
+    
+    <div class="tarot-card" data-name="Queen of Swords">
+      <h2>Queen of Swords</h2>
+      <p><strong>Past:</strong> You were a source of strength and guidance to others.</p>
+      <p><strong>Present:</strong> You are seeking clarity, truth, and understanding in your own life.</p>
+      <p><strong>Future:</strong> With wisdom and insight, you will make wise decisions and lead with courage.</p>
+    </div>
+    
+    <div class="tarot-card" data-name="King of Swords">
+      <h2>King of Swords</h2>
+      <p><strong>Past:</strong> You were a leader or decision-maker in your life or community.</p>
+      <p><strong>Present:</strong> You are facing a difficult decision that requires courage and wisdom.</p>
+      <p><strong>Future:</strong> With strong leadership, you will navigate challenges and achieve success.</p>
+    </div>
+
+    <div class="tarot-card" data-name="Ace of Swords (Reversed)">
+      <h2>Ace of Swords (Reversed)</h2>
+      <p><strong>Past:</strong> You may have struggled with mental confusion or unclear thinking.</p>
+      <p><strong>Present:</strong> Challenges in communication and decision-making are hindering your progress.</p>
+      <p><strong>Future:</strong> Focus on clarity and seek guidance to overcome mental obstacles.</p>
+    </div>
+
+    <div class="tarot-card" data-name="Two of Swords (Reversed)">
+      <h2>Two of Swords (Reversed)</h2>
+      <p><strong>Past:</strong> You have been avoiding making a difficult decision.</p>
+      <p><strong>Present:</strong> Inner conflicts and indecision are causing stress and stagnation.</p>
+      <p><strong>Future:</strong> Confront your fears and make a choice to move forward.</p>
+    </div>
+
+    <div class="tarot-card" data-name="Three of Swords (Reversed)">
+      <h2>Three of Swords (Reversed)</h2>
+      <p><strong>Past:</strong> Healing from emotional pain and heartbreak has begun.</p>
+      <p><strong>Present:</strong> You are working through grief and learning to forgive.</p>
+      <p><strong>Future:</strong> Emotional recovery and personal growth are possible.</p>
+    </div>
+
+    <div class="tarot-card" data-name="Four of Swords (Reversed)">
+      <h2>Four of Swords (Reversed)</h2>
+      <p><strong>Past:</strong> You may have struggled to find rest and peace.</p>
+      <p><strong>Present:</strong> Burnout and mental exhaustion are affecting your well-being.</p>
+      <p><strong>Future:</strong> Take time to recharge and prioritize self-care.</p>
+    </div>
+
+    <div class="tarot-card" data-name="Five of Swords (Reversed)">
+      <h2>Five of Swords (Reversed)</h2>
+      <p><strong>Past:</strong> Conflicts and arguments have left emotional scars.</p>
+      <p><strong>Present:</strong> You are learning to let go of past resentments.</p>
+      <p><strong>Future:</strong> Seek reconciliation and choose compassion over winning.</p>
+    </div>
+
+    <div class="tarot-card" data-name="Six of Swords (Reversed)">
+      <h2>Six of Swords (Reversed)</h2>
+      <p><strong>Past:</strong> Transitions have been challenging and uncertain.</p>
+      <p><strong>Present:</strong> You may feel stuck or unable to move forward.</p>
+      <p><strong>Future:</strong> Be patient and trust the process of change.</p>
+    </div>
+
+    <div class="tarot-card" data-name="Seven of Swords (Reversed)">
+      <h2>Seven of Swords (Reversed)</h2>
+      <p><strong>Past:</strong> Deception and dishonesty have been revealed.</p>
+      <p><strong>Present:</strong> You are facing the consequences of past actions.</p>
+      <p><strong>Future:</strong> Choose honesty and integrity moving forward.</p>
+    </div>
+
+    <div class="tarot-card" data-name="Eight of Swords (Reversed)">
+      <h2>Eight of Swords (Reversed)</h2>
+      <p><strong>Past:</strong> You have begun to break free from limiting beliefs.</p>
+      <p><strong>Present:</strong> Recognizing your own power and potential for change.</p>
+      <p><strong>Future:</strong> Embrace your inner strength and overcome self-imposed limitations.</p>
+    </div>
+
+    <div class="tarot-card" data-name="Nine of Swords (Reversed)">
+      <h2>Nine of Swords (Reversed)</h2>
+      <p><strong>Past:</strong> Anxiety and fear have started to subside.</p>
+      <p><strong>Present:</strong> Working through mental and emotional challenges.</p>
+      <p><strong>Future:</strong> Seek support and practice self-compassion.</p>
+    </div>
+
+    <div class="tarot-card" data-name="Ten of Swords (Reversed)">
+      <h2>Ten of Swords (Reversed)</h2>
+      <p><strong>Past:</strong> The worst is over, and recovery is possible.</p>
+      <p><strong>Present:</strong> Emerging from a difficult period with newfound resilience.</p>
+      <p><strong>Future:</strong> Embrace renewal and look forward to new opportunities.</p>
+    </div>
+
+    <div class="tarot-card" data-name="Page of Swords (Reversed)">
+      <h2>Page of Swords (Reversed)</h2>
+      <p><strong>Past:</strong> Communication and learning have been challenging.</p>
+      <p><strong>Present:</strong> Struggling with intellectual growth and curiosity.</p>
+      <p><strong>Future:</strong> Stay open-minded and continue to seek knowledge.</p>
+    </div>
+
+    <div class="tarot-card" data-name="Knight of Swords (Reversed)">
+      <h2>Knight of Swords (Reversed)</h2>
+      <p><strong>Past:</strong> Impulsive actions may have led to unintended consequences.</p>
+      <p><strong>Present:</strong> Lack of direction and rash decision-making.</p>
+      <p><strong>Future:</strong> Slow down and think carefully before acting.</p>
+    </div>
+
+    <div class="tarot-card" data-name="Queen of Swords (Reversed)">
+      <h2>Queen of Swords (Reversed)</h2>
+      <p><strong>Past:</strong> Emotional detachment has hindered personal connections.</p>
+      <p><strong>Present:</strong> Struggling with empathy and understanding.</p>
+      <p><strong>Future:</strong> Practice compassion and emotional intelligence.</p>
+    </div>
+
+    <div class="tarot-card" data-name="King of Swords (Reversed)">
+      <h2>King of Swords (Reversed)</h2>
+      <p><strong>Past:</strong> Harsh judgment and lack of emotional understanding.</p>
+      <p><strong>Present:</strong> Difficulty in balanced decision-making.</p>
+      <p><strong>Future:</strong> Strive for fairness and consider emotional perspectives.</p>
+    </div>
+
+    <!-- Pentacles -->
+    <div class="tarot-card" data-name="Ace of Pentacles">
+      <h2>Ace of Pentacles</h2>
+      <p><strong>Past:</strong> New financial opportunities or material beginnings.</p>
+      <p><strong>Present:</strong> Potential for prosperity and stability.</p>
+      <p><strong>Future:</strong> Promising financial growth and security.</p>
+    </div>
+    
+    <div class="tarot-card" data-name="Two of Pentacles">
+      <h2>Two of Pentacles</h2>
+      <p><strong>Past:</strong> Balancing multiple responsibilities.</p>
+      <p><strong>Present:</strong> Juggling work, finances, and personal life.</p>
+      <p><strong>Future:</strong> Maintaining harmony and adaptability.</p>
+    </div>
+    
+    <div class="tarot-card" data-name="Three of Pentacles">
+      <h2>Three of Pentacles</h2>
+      <p><strong>Past:</strong> Collaborative efforts and skill development.</p>
+      <p><strong>Present:</strong> Teamwork and recognition of expertise.</p>
+      <p><strong>Future:</strong> Continued professional growth and success.</p>
+    </div>
+    
+    <div class="tarot-card" data-name="Four of Pentacles">
+      <h2>Four of Pentacles</h2>
+      <p><strong>Past:</strong> Careful financial management.</p>
+      <p><strong>Present:</strong> Holding onto resources and being cautious.</p>
+      <p><strong>Future:</strong> Need to balance saving and spending.</p>
+    </div>
+    
+    <div class="tarot-card" data-name="Five of Pentacles">
+      <h2>Five of Pentacles</h2>
+      <p><strong>Past:</strong> Financial hardship or material struggles.</p>
+      <p><strong>Present:</strong> Feeling of lack or isolation.</p>
+      <p><strong>Future:</strong> Potential for recovery and support.</p>
+    </div>
+    
+    <div class="tarot-card" data-name="Six of Pentacles">
+      <h2>Six of Pentacles</h2>
+      <p><strong>Past:</strong> Generosity and sharing of resources.</p>
+      <p><strong>Present:</strong> Balance between giving and receiving.</p>
+      <p><strong>Future:</strong> Potential for mutual support and kindness.</p>
+    </div>
+    
+    <div class="tarot-card" data-name="Seven of Pentacles">
+      <h2>Seven of Pentacles</h2>
+      <p><strong>Past:</strong> Patience and long-term investment.</p>
+      <p><strong>Present:</strong> Evaluating progress and potential.</p>
+      <p><strong>Future:</strong> Potential rewards for sustained effort.</p>
+    </div>
+    
+    <div class="tarot-card" data-name="Eight of Pentacles">
+      <h2>Eight of Pentacles</h2>
+      <p><strong>Past:</strong> Dedication to skill improvement.</p>
+      <p><strong>Present:</strong> Focused work and craftsmanship.</p>
+      <p><strong>Future:</strong> Continued learning and professional development.</p>
+    </div>
+    
+    <div class="tarot-card" data-name="Nine of Pentacles">
+      <h2>Nine of Pentacles</h2>
+      <p><strong>Past:</strong> Personal achievements and self-sufficiency.</p>
+      <p><strong>Present:</strong> Enjoying the fruits of hard work.</p>
+      <p><strong>Future:</strong> Continued prosperity and independence.</p>
+    </div>
+    
+    <div class="tarot-card" data-name="Ten of Pentacles">
+      <h2>Ten of Pentacles</h2>
+      <p><strong>Past:</strong> Family legacy and long-term security.</p>
+      <p><strong>Present:</strong> Stability and generational wealth.</p>
+      <p><strong>Future:</strong> Continued family support and prosperity.</p>
+    </div>
+    
+    <div class="tarot-card" data-name="Page of Pentacles">
+      <h2>Page of Pentacles</h2>
+      <p><strong>Past:</strong> New learning opportunities or financial potential.</p>
+      <p><strong>Present:</strong> Enthusiasm for personal growth and goals.</p>
+      <p><strong>Future:</strong> Promising prospects for education or career.</p>
+    </div>
+    
+    <div class="tarot-card" data-name="Knight of Pentacles">
+      <h2>Knight of Pentacles</h2>
+      <p><strong>Past:</strong> Methodical approach to goals.</p>
+      <p><strong>Present:</strong> Patience and steady progress.</p>
+      <p><strong>Future:</strong> Continued diligence and reliability.</p>
+    </div>
+    
+    <div class="tarot-card" data-name="Queen of Pentacles">
+      <h2>Queen of Pentacles</h2>
+      <p><strong>Past:</strong> Nurturing and practical approach to resources.</p>
+      <p><strong>Present:</strong> Balancing material and emotional needs.</p>
+      <p><strong>Future:</strong> Continued abundance and care.</p>
+    </div>
+    
+    <div class="tarot-card" data-name="King of Pentacles">
+      <h2>King of Pentacles</h2>
+      <p><strong>Past:</strong> Mastery of financial and material matters.</p>
+      <p><strong>Present:</strong> Stability and wise management.</p>
+      <p><strong>Future:</strong> Continued success and prosperity.</p>
+    </div>
+    
+    <div class="tarot-card" data-name="Ace of Pentacles (Reversed)">
+      <h2>Ace of Pentacles (Reversed)</h2>
+      <p><strong>Past:</strong> Missed financial opportunities or lack of practical planning.</p>
+      <p><strong>Present:</strong> Struggling with financial stability and material goals.</p>
+      <p><strong>Future:</strong> Focus on practical steps and realistic financial strategies.</p>
+    </div>
+    
+    <div class="tarot-card" data-name="Two of Pentacles (Reversed)">
+      <h2>Two of Pentacles (Reversed)</h2>
+      <p><strong>Past:</strong> Difficulty balancing multiple responsibilities.</p>
+      <p><strong>Present:</strong> Feeling overwhelmed and losing control of priorities.</p>
+      <p><strong>Future:</strong> Seek better time management and prioritization.</p>
+    </div>
+    
+    <div class="tarot-card" data-name="Three of Pentacles (Reversed)">
+      <h2>Three of Pentacles (Reversed)</h2>
+      <p><strong>Past:</strong> Poor teamwork or lack of collaboration.</p>
+      <p><strong>Present:</strong> Challenges in professional relationships and skill development.</p>
+      <p><strong>Future:</strong> Improve communication and seek constructive feedback.</p>
+    </div>
+    
+    <div class="tarot-card" data-name="Four of Pentacles (Reversed)">
+      <h2>Four of Pentacles (Reversed)</h2>
+      <p><strong>Past:</strong> Excessive spending or financial insecurity.</p>
+      <p><strong>Present:</strong> Struggling with letting go of resources or fear of loss.</p>
+      <p><strong>Future:</strong> Learn to balance saving and generosity.</p>
+    </div>
+    
+    <div class="tarot-card" data-name="Five of Pentacles (Reversed)">
+      <h2>Five of Pentacles (Reversed)</h2>
+      <p><strong>Past:</strong> Emerging from a period of financial hardship.</p>
+      <p><strong>Present:</strong> Finding new opportunities and support.</p>
+      <p><strong>Future:</strong> Remain hopeful and open to assistance.</p>
+    </div>
+    
+    <div class="tarot-card" data-name="Six of Pentacles (Reversed)">
+      <h2>Six of Pentacles (Reversed)</h2>
+      <p><strong>Past:</strong> Unbalanced giving or receiving.</p>
+      <p><strong>Present:</strong> Challenges with generosity and fairness.</p>
+      <p><strong>Future:</strong> Seek more equitable relationships and exchanges.</p>
+    </div>
+    
+    <div class="tarot-card" data-name="Seven of Pentacles (Reversed)">
+      <h2>Seven of Pentacles (Reversed)</h2>
+      <p><strong>Past:</strong> Lack of progress or wasted efforts.</p>
+      <p><strong>Present:</strong> Feeling discouraged about long-term goals.</p>
+      <p><strong>Future:</strong> Reassess strategies and maintain patience.</p>
+    </div>
+    
+    <div class="tarot-card" data-name="Eight of Pentacles (Reversed)">
+      <h2>Eight of Pentacles (Reversed)</h2>
+      <p><strong>Past:</strong> Poor work quality or lack of motivation.</p>
+      <p><strong>Present:</strong> Struggling with skill development and dedication.</p>
+      <p><strong>Future:</strong> Recommit to personal and professional growth.</p>
+    </div>
+    
+    <div class="tarot-card" data-name="Nine of Pentacles (Reversed)">
+      <h2>Nine of Pentacles (Reversed)</h2>
+      <p><strong>Past:</strong> Financial setbacks or loss of independence.</p>
+      <p><strong>Present:</strong> Challenges with self-sufficiency and personal enjoyment.</p>
+      <p><strong>Future:</strong> Rebuild confidence and financial stability.</p>
+    </div>
+    
+    <div class="tarot-card" data-name="Ten of Pentacles (Reversed)">
+      <h2>Ten of Pentacles (Reversed)</h2>
+      <p><strong>Past:</strong> Family conflicts or financial instability.</p>
+      <p><strong>Present:</strong> Challenges in maintaining family traditions or legacy.</p>
+      <p><strong>Future:</strong> Focus on healing family relationships.</p>
+    </div>
+    
+    <div class="tarot-card" data-name="Page of Pentacles (Reversed)">
+      <h2>Page of Pentacles (Reversed)</h2>
+      <p><strong>Past:</strong> Lack of practical focus or motivation.</p>
+      <p><strong>Present:</strong> Struggling with learning new skills or opportunities.</p>
+      <p><strong>Future:</strong> Stay open to personal and professional growth.</p>
+    </div>
+    
+    <div class="tarot-card" data-name="Knight of Pentacles (Reversed)">
+      <h2>Knight of Pentacles (Reversed)</h2>
+      <p><strong>Past:</strong> Excessive caution or stagnation.</p>
+      <p><strong>Present:</strong> Feeling stuck or resistant to change.</p>
+      <p><strong>Future:</strong> Find balance between careful planning and action.</p>
+    </div>
+    
+    <div class="tarot-card" data-name="Queen of Pentacles (Reversed)">
+      <h2>Queen of Pentacles (Reversed)</h2>
+      <p><strong>Past:</strong> Neglecting self-care or financial responsibilities.</p>
+      <p><strong>Present:</strong> Struggling with work-life balance.</p>
+      <p><strong>Future:</strong> Prioritize personal well-being and practical matters.</p>
+    </div>
+    
+    <div class="tarot-card" data-name="King of Pentacles (Reversed)">
+      <h2>King of Pentacles (Reversed)</h2>
+      <p><strong>Past:</strong> Financial mismanagement or inflexibility.</p>
+      <p><strong>Present:</strong> Challenges with leadership and material success.</p>
+      <p><strong>Future:</strong> Develop more adaptable and compassionate approaches.</p>
+    </div>    
+
+  </div>
+
+  <script>
+    // Expanded array of guidance messages
+    const guidanceMessages = [
+        // 40 messages
+        "Beloved soul, the card you've drawn is a gentle whisper from the universe, offering guidance and understanding.",
+        "Every card is a mirror reflecting your inner wisdom and potential.",
+        "Trust the journey, even when the path seems uncertain.",
+        "Your strength lies in your ability to embrace change and grow.",
+        "This moment is an invitation to deep self-reflection and healing.",
+        "The universe speaks to you through subtle signs and synchronicities.",
+        "Your intuition is a powerful guide - listen to its quiet whispers.",
+        "Challenges are opportunities for personal transformation.",
+        "You have the inner resources to navigate any situation.",
+        "Embrace the unknown with courage and an open heart.",
+        "Your resilience is your greatest superpower.",
+        "Every experience is a lesson in disguise.",
+        "You are more powerful than you realize.",
+        "Compassion for yourself is the first step to healing.",
+        "The universe supports your highest good.",
+        "Your journey is unique and perfectly unfolding.",
+        "Inner peace comes from accepting what is.",
+        "Trust in your ability to overcome and thrive.",
+        "You are a work in progress, always growing and evolving.",
+        "Wisdom comes from experiencing life fully and openly.",
+        "Your inner light is stronger than any external challenge.",
+        "Embrace vulnerability as a path to true strength.",
+        "The universe conspires in your favor, even when it doesn't seem so.",
+        "Your dreams are valid and worthy of pursuit.",
+        "Transformation begins with a single moment of awareness.",
+        "Trust the timing of your life's unfolding.",
+        "Your intuition is a compass guiding you towards your truth.",
+        "Every setback is a setup for a remarkable comeback.",
+        "You are capable of writing your own narrative.",
+        "Healing is not linear, and that's perfectly okay.",
+        "Your potential is limitless and constantly expanding.",
+        "Embrace the magic of your own becoming.",
+        "Kindness to yourself is the greatest form of strength.",
+        "Your journey is sacred and uniquely yours.",
+        "Challenges are opportunities dressed in work clothes.",
+        "You are more resilient than you know.",
+        "Listen to the whispers of your soul.",
+        "Your authenticity is your most powerful asset.",
+        "Growth happens outside of your comfort zone.",
+        "You are exactly where you need to be right now."
+    ];
+
+    function drawCard() {
+        // Hide all cards
+        const cards = document.querySelectorAll('.tarot-card');
+        cards.forEach(card => card.style.display = 'none');
+        
+        // Randomly select a card
+        const randomCardIndex = Math.floor(Math.random() * cards.length);
+        const selectedCard = cards[randomCardIndex];
+        
+        // Show the selected card
+        selectedCard.style.display = 'block';
+        
+        // Randomly select a guidance message
+        const randomGuidanceIndex = Math.floor(Math.random() * guidanceMessages.length);
+        const selectedGuidance = guidanceMessages[randomGuidanceIndex];
+        
+        // Create guidance paragraph
+        const guidanceP = document.createElement('p');
+        guidanceP.style.marginTop = '20px';
+        guidanceP.style.fontStyle = 'italic';
+        guidanceP.style.color = '#666';
+        
+        // Split the guidance message into highlighted and additional parts
+        const highlightedPart = `<strong style="color: #4a4a4a; font-size: 1.1em;">${selectedGuidance}</strong>`;
+        const additionalText = ` Every card is an opportunity for reflection, healing, and transformation. 
+            Trust the wisdom that flows through this moment. You are exactly where you need to be, 
+            and this card is a compassionate mirror showing you the next step on your spiritual journey. 
+            Embrace its message with an open heart, knowing that you have the strength, courage, 
+            and resilience to navigate whatever lies ahead.`;
+        
+        // Combine highlighted and additional text
+        guidanceP.innerHTML = `${highlightedPart}${additionalText}`;
+
+        // Remove any previously existing guidance text
+        const existingGuidance = selectedCard.querySelector('.guidance-text');
+        if (existingGuidance) {
+            existingGuidance.remove();
+        }
+        
+        // Add new guidance text
+        guidanceP.classList.add('guidance-text');
+        selectedCard.appendChild(guidanceP);
+
+        // Update result
+        const resultElement = document.getElementById('result');
+        resultElement.innerHTML = `You drew: ${selectedCard.getAttribute('data-name')}`;
+    }
+  </script>
+
+</body>
+</html>
